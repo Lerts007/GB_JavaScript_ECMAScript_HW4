@@ -17,6 +17,20 @@ console.log('-------------------------------------------------------------------
 console.log('Задание 1');
 console.log('--------------------------------------------------------------------');
 
+async function getUserData(ID) {
+  const responce = await fetch(`https://jsonplaceholder.typicode.com/users/${ID}`);
+
+  if (responce.status !== 200) {
+    console.log(`Error ${xhr.status}: ${xhr.statusText}`);
+  } else {
+    const users = await responce.json();
+
+    console.log(users);
+  }
+}
+
+getUserData(5);
+
 // --------------------------------------------------------------------
 // Задание 2 "Отправка данных на сервер"
 
@@ -51,6 +65,47 @@ console.log('-------------------------------------------------------------------
 console.log('Задание 2');
 console.log('--------------------------------------------------------------------');
 
+async function saveUserData(user, url) {
+  let response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(user),
+  });
+
+  if (!response.ok) {
+    console.log(response.status);
+    throw new Error('Что-то пошло не так: ' + response.status);
+  } else {
+    console.log(response.status);
+  }
+}
+
+const user = {
+  name: 'John Smith',
+  age: 30,
+  email: 'john@example.com',
+};
+const url1 = 'https://jsonplaceholder.typicode.com/us';
+const url2 = 'https://jsonplaceholder.typicode.com/users';
+
+saveUserData(user, url1)
+  .then(() => {
+    console.log('User data saved successfully');
+  })
+  .catch((error) => {
+    console.log(error.message);
+  });
+
+saveUserData(user, url2)
+  .then(() => {
+    console.log('User data saved successfully');
+  })
+  .catch((error) => {
+    console.log(error.message);
+  });
+
 // --------------------------------------------------------------------
 // Задание 3 "Изменение стиля элемента через заданное время"
 
@@ -67,4 +122,75 @@ console.log('-------------------------------------------------------------------
 console.log('Задание 3');
 console.log('--------------------------------------------------------------------');
 
+const btnEl = document.querySelector('.btn');
+
+btnEl.addEventListener('click', () => {
+  changeStyleDelayed('myElement', 1000);
+});
+
+function changeStyleDelayed(nameClass, time) {
+  const divEl = document.querySelector(`.${nameClass}`);
+
+  setTimeout(() => {
+    divEl.classList.toggle('colorBlue');
+  }, time);
+}
+
 // --------------------------------------------------------------------
+
+// async function delayedMessage(message, delay) {
+//   setTimeout(() => {
+//     console.log(message);
+//   }, delay);
+// }
+
+// const tasks = [
+//   { name: 'task 1', time: 1000 },
+//   { name: 'task 2', time: 2000 },
+//   { name: 'task 3', time: 3000 },
+//   { name: 'task 4', time: 4000 },
+//   { name: 'task 5', time: 5000 },
+// ];
+
+// tasks.forEach((el) => {
+//   delayedMessage(el.name, el.time);
+// });
+
+// Напишите программу, которая загружает данные с сервера с использованием объекта XMLHttpRequest
+// Создайте функцию loadData(url), которая принимает аргумент url (строка) - адрес сервера для загрузки данных.
+// Внутри функции loadData() создайте объект XMLHttpRequest с помощью new XMLHttpRequest().
+// Зарегистрируйте обработчик события onreadystatechange, который будет вызываться при изменении состояния запроса.
+// Проверьте, если успешно выполнен запрос и успешный статус ответа сервера, то выведите полученные данные в консоль
+//  с помощью console.log(xhr.responseText).
+// Откройте запрос с помощью xhr.open("GET", url, true).
+// Отправьте запрос на сервер.
+
+// async function loadData(url) {
+//   const responce = await fetch(url);
+
+//   responce.onreadystatechange = () => {
+//     if (xhr.status !== 200) {
+//       console.log(`Error ${xhr.status}: ${xhr.statusText}`);
+//     } else {
+//       console.log(`User: ${xhr.responseText}`);
+//     }
+//   };
+// }
+
+// loadData('https://jsonplaceholder.typicode.com/users');
+
+// async function loadData(url) {
+//   const responce = await fetch(url);
+//   const body = document.querySelector('body');
+
+//   const users = await responce.json();
+//   console.log(users);
+//   users.forEach((element) => {
+//     body.append(element.name);
+//   });
+
+//   // const newUsers = users.sort((a, b) => a.name.localeCompare(b.name));
+//   // console.log(users);
+// }
+
+// loadData('https://jsonplaceholder.typicode.com/users');
