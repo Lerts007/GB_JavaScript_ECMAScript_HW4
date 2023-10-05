@@ -18,18 +18,19 @@ console.log('Задание 1');
 console.log('--------------------------------------------------------------------');
 
 async function getUserData(ID) {
-  const responce = await fetch(`https://jsonplaceholder.typicode.com/users/${ID}`);
+  const responce = await fetch(`https://jsonplaceholder.typicode.com/users`);
 
+  const users = await responce.json();
   if (responce.status !== 200) {
     console.log(`Error ${xhr.status}: ${xhr.statusText}`);
   } else {
-    const users = await responce.json();
-
-    console.log(users);
+    const user = users.find((el) => el.id === ID);
+    console.log(user === undefined ? 'Пользователь не найден' : user);
   }
 }
 
 getUserData(5);
+getUserData(15);
 
 // --------------------------------------------------------------------
 // Задание 2 "Отправка данных на сервер"
